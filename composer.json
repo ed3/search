@@ -3,6 +3,7 @@
 	"description": "Search Plugin for CakePHP",
 	"type": "cakephp-plugin",
 	"homepage": "http://github.com/ed3/search",
+	"license": "MIT",
 	"require": {
 		"php": ">=5.6",
 		"cakephp/plugin-installer": "*"
