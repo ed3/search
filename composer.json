@@ -10,9 +10,5 @@
 	},
 	"require-dev": {
 		"cakephp/cakephp": "~3.5"
-	},
-	"extra": {
-		"installer-name": "Search"
-	},
-	"minimum-stability": "dev"
+	}
 }
