@@ -1,8 +1,8 @@
 Search Plugin
 ========================
 
-[![Downloads](https://poser.pugx.org/CakeDC/search/d/total.png)](https://packagist.org/packages/ed3/search)
-[![Latest Version](https://poser.pugx.org/CakeDC/search/v/stable.png)](https://packagist.org/packages/ed3/search)
+[![Downloads](https://poser.pugx.org/ed3/search/d/total.png)](https://packagist.org/packages/ed3/search)
+[![Latest Version](https://poser.pugx.org/ed3/search/v/stable.png)](https://packagist.org/packages/ed3/search)
 
 This **Search** plugin enables developers to quickly implement the [POST-Redirect-GET](Docs/Documentation/Post-Redirect-Get.md) pattern.
 
