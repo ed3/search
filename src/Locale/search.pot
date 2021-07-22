@@ -1,0 +1,3 @@
+#: /controller/component/prg.php:362
+msgid "Please correct the errors below."
+msgstr ""

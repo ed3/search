@@ -1,0 +1,2 @@
+msgid "Please correct the errors below."
+msgstr "Bitte korrigieren Sie die unten stehenden Fehler."

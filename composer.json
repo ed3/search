@@ -1,0 +1,17 @@
+{
+	"name": "ed3/search",
+	"description": "Search Plugin for CakePHP",
+	"type": "cakephp-plugin",
+	"homepage": "http://github.com/ed3/search",
+	"require": {
+		"php": ">=5.6",
+		"cakephp/plugin-installer": "*"
+	},
+	"require-dev": {
+		"cakephp/cakephp": "~3.5"
+	},
+	"extra": {
+		"installer-name": "Search"
+	},
+	"minimum-stability": "dev"
+}
