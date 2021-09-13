@@ -25,4 +25,4 @@ Requirements
 Documentation
 -------------
 
-For documentation, see the [Docs](Docs/Home.md) directory of this repository.
+For documentation, see the [Docs](tree/master/Docs/Home.md) directory of this repository.
