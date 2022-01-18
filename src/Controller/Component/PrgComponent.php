@@ -209,7 +209,7 @@ class PrgComponent extends Component {
 			}
 		}
 
-		if ($formName) {
+		if (!empty($formName)) {
 			$this->controller->request = $this->controller->request->withData($formName, $data);
 		} else {
 			foreach ($data as $key => $dt) {
