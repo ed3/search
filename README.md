@@ -19,7 +19,7 @@ As mentioned before, this plugin helps you to implement searching for data using
 Requirements
 ------------
 
-* CakePHP 3.5+
+* CakePHP 3.10.x
 * PHP 5.6+
 
 Documentation
