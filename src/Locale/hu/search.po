@@ -1,2 +1,0 @@
-msgid "Please correct the errors below."
-msgstr "Kérjük javítsa az alábbi hibákat."

@@ -89,7 +89,7 @@ class PrgComponent extends Component {
 			$this->controller->presetVars = true;
 		}
 
-		list(, $table) = pluginSplit($this->controller->modelClass);
+		list(, $table) = pluginSplit($this->controller->fetchTable()->getAlias());
 		if (!empty($settings['table'])) {
 			$table = $settings['table'];
 		}
@@ -138,7 +138,7 @@ class PrgComponent extends Component {
 			$this->commonProcess();
 		}
 		if (is_array($autoProcess)) {
-			$action = $this->controller->request->action;
+			$action = $this->controller->getRequest()->getParam('action');
 			if (isset($autoProcess[$action])) {
 				$this->commonProcess($autoProcess[$action][0], $autoProcess[$action][1]);
 			}
@@ -146,7 +146,7 @@ class PrgComponent extends Component {
 	}
 
 /**
- * Populates controller->request->data with allowed values from the named/passed get params
+ * Populates controller->getRequest()->getData() with allowed values from the named/passed get params
  *
  * Fields in $controller::$presetVars that have a type of 'lookup' the foreignKey value will be inserted
  *
@@ -172,7 +172,7 @@ class PrgComponent extends Component {
 		}
 		extract(Hash::merge($this->_config['presetForm'], $options));
 
-		$args = $this->controller->request->getQueryParams();
+		$args = $this->controller->getRequest()->getQueryParams();
 
 		$parsedParams = [];
 		$data = [];
@@ -183,7 +183,6 @@ class PrgComponent extends Component {
 
 			if ($field['type'] === 'lookup') {
 				$searchModel = $field['table'];
-				$this->controller->loadModel($searchModel);
 				$result = $this->controller->{$searchModel}->findById($args[$field['field']])->first();
 				$parsedParams[$field['field']] = $args[$field['field']];
 				$parsedParams[$field['formField']] = $result->{$field['tableField']};
@@ -210,10 +209,10 @@ class PrgComponent extends Component {
 		}
 
 		if (!empty($formName)) {
-			$this->controller->request = $this->controller->request->withData($formName, $data);
+			$this->controller->request = $this->controller->getRequest()->withData($formName, $data);
 		} else {
 			foreach ($data as $key => $dt) {
-				$this->controller->request = $this->controller->request->withData($key, $dt);
+				$this->controller->request = $this->controller->getRequest()->withData($key, $dt);
 			}
 		}
 
@@ -226,7 +225,8 @@ class PrgComponent extends Component {
  *
  * @return array Params
  */
-	public function parsedParams() {
+	public function parsedParams(): array
+    {
 		return $this->_parsedParams;
 	}
 
@@ -237,7 +237,8 @@ class PrgComponent extends Component {
  *
  * @return array
  */
-	public function serializeParams(array &$data) {
+	public function serializeParams(array &$data): array
+    {
 		foreach ($this->controller->presetVars as $field) {
 			if ($field['type'] === 'checkbox') {
 				if (array_key_exists($field['field'], $data)) {
@@ -265,7 +266,8 @@ class PrgComponent extends Component {
  *
  * @return array
  */
-	public function exclude(array $array, array $exclude) {
+	public function exclude(array $array, array $exclude): array
+    {
 		$data = [];
 		foreach ($array as $key => $value) {
 			if (is_numeric($key) || !in_array($key, $exclude)) {
@@ -285,7 +287,7 @@ class PrgComponent extends Component {
  * - Issuing redirect(), and connecting named parameters before redirect
  * - Setting named parameter form data to view
  *
- * @param string $tableName - Name of the model class being used for the prg form
+ * @param string|null $tableName - Name of the model class being used for the prg form
  * @param array $options Optional parameters:
  * - string formName - name of the form involved in the prg
  * - string action - The action to redirect to. Defaults to the current action
@@ -296,7 +298,7 @@ class PrgComponent extends Component {
  *
  * @return void
  */
-	public function commonProcess($tableName = null, array $options = []) {
+	public function commonProcess(string $tableName = null, array $options = []) {
 		$defaults = [
 			'excludedParams' => ['page'],
 		];
@@ -304,22 +306,22 @@ class PrgComponent extends Component {
 		extract(Hash::merge($defaults, $options));
 
 		if (empty($tableName)) {
-			list(, $tableName) = pluginSplit($this->controller->modelClass);
+			list(, $tableName) = pluginSplit($this->controller->fetchTable()->getAlias());
 		}
 
 		if (empty($action)) {
-			$action = $this->controller->request->getParam('action');
+			$action = $this->controller->getRequest()->getParam('action');
 		}
 
-		if (!empty($formName) && $this->controller->request->getData($formName)) {
-			$searchParams = $this->controller->request->getData($formName);
-		} elseif ($this->controller->request->getData($tableName)) {
-			$searchParams = $this->controller->request->getData($tableName);
+		if (!empty($formName) && $this->controller->getRequest()->getData($formName)) {
+			$searchParams = $this->controller->getRequest()->getData($formName);
+		} elseif ($this->controller->getRequest()->getData($tableName)) {
+			$searchParams = $this->controller->getRequest()->getData($tableName);
 			if (empty($formName)) {
 				$formName = $tableName;
 			}
 		} else {
-			$searchParams = $this->controller->request->getData();
+			$searchParams = $this->controller->getRequest()->getData();
 		}
 
 		if (!empty($searchParams)) {
@@ -329,15 +331,15 @@ class PrgComponent extends Component {
 			}
 
 			if ($valid) {
-				$params = $this->controller->request->getQueryParams();
+				$params = $this->controller->getRequest()->getQueryParams();
 				if ($keepPassed) {
-					$params = array_merge($this->controller->request->getParam('pass'), $params);
+					$params = array_merge($this->controller->getRequest()->getParam('pass'), $params);
 					$params = $this->exclude($params, $excludedParams);
 				}
 
 				$this->serializeParams($searchParams);
 
-				$searchParams = array_merge($this->controller->request->getQueryParams(), $searchParams);
+				$searchParams = array_merge($this->controller->getRequest()->getQueryParams(), $searchParams);
 				$searchParams = $this->exclude($searchParams, $excludedParams);
 
 				if ($filterEmpty) {
@@ -352,8 +354,8 @@ class PrgComponent extends Component {
 				$params['action'] = $action;
 
 				foreach ($allowedParams as $key) {
-					if ($this->controller->request->getParam($key)) {
-						$params[$key] = $this->controller->request->getParam($key);
+					if ($this->controller->getRequest()->getParam($key)) {
+						$params[$key] = $this->controller->getRequest()->getParam($key);
 					}
 				}
 
@@ -361,7 +363,7 @@ class PrgComponent extends Component {
 			} else {
 				$this->controller->Flash->error(__d('search', 'Please correct the errors below.'));
 			}
-		} elseif (!empty($this->controller->request->getQueryParams())) {
+		} elseif (!empty($this->controller->getRequest()->getQueryParams())) {
 			$this->presetForm(['table' => $tableName, 'formName' => $formName]);
 		}
 	}
@@ -373,7 +375,8 @@ class PrgComponent extends Component {
  *
  * @return array Params
  */
-	protected function _filter(array $params) {
+	protected function _filter(array $params): array
+    {
 		foreach ($this->controller->presetVars as $key => $presetVar) {
 			$field = $key;
 			if (!empty($presetVar['field'])) {
@@ -398,7 +401,8 @@ class PrgComponent extends Component {
  *
  * @return array
  */
-	protected function _parseFromModel(array $arg, $key = null) {
+	protected function _parseFromModel(array $arg, $key = null): array
+    {
 		if (isset($arg['preset']) && !$arg['preset']) {
 			return [];
 		}
@@ -418,8 +422,7 @@ class PrgComponent extends Component {
 		if (!empty($arg['encode'])) {
 			$res['encode'] = $arg['encode'];
 		}
-		$res = array_merge($arg, $res);
-		return $res;
+        return array_merge($arg, $res);
 	}
 
 }

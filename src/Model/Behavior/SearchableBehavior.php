@@ -53,7 +53,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return bool always true
  */
-	public function validateSearch($searchData) {
+	public function validateSearch(array $searchData): bool
+    {
 		foreach ($searchData as $key => $value) {
 			if (empty($value)) {
 				unset($searchData[$key]);
@@ -100,7 +101,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return Query
  */
-	public function findSearchable(Query $query, $data) {
+	public function findSearchable(Query $query, array $data): Query
+    {
 		$this->setupFilterArgs();
 
 		foreach ($this->_table->filterArgs as $field) {
@@ -133,7 +135,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return array, filtered args
  */
-	public function passedArgs($vars) {
+	public function passedArgs(array $vars): array
+    {
 		$this->setupFilterArgs($this->_table);
 
 		$result = [];
@@ -155,7 +158,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return array of conditions
  */
-	public function condLike($name, $data, $field = []) {
+	public function condLike(string $name, ?array $data, array $field = []): array
+    {
 		$field['name'] = $name;
 		if (!is_array($data)) {
 			$data = [$name => $data];
@@ -175,7 +179,7 @@ class SearchableBehavior extends Behavior {
  *
  * @return string queryLikeString
  */
-	public function formatLike($data, $options = []) {
+	public function formatLike(array $data, array $options = []) {
 		$options = array_merge($this->_config, $options);
 		$from = $to = $substFrom = $substTo = [];
 		if ($options['wildcardAny'] !== '%') {
@@ -206,7 +210,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return array, [one=>..., any=>...]
  */
-	public function getWildcards($options = []) {
+	public function getWildcards(array $options = []): array
+    {
 		$options = array_merge($this->_config, $options);
 		return ['any' => $options['wildcardAny'], 'one' => $options['wildcardOne']];
 	}
@@ -219,7 +224,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return array
  */
-	protected function _addCondLike($data, $field) {
+	protected function _addCondLike(array $data, array $field): array
+    {
 		if (!is_array($this->_config['like'])) {
 			$this->_config['like'] = ['before' => $this->_config['like'], 'after' => $this->_config['like']];
 		}
@@ -286,7 +292,8 @@ class SearchableBehavior extends Behavior {
  *
  * @return array Conditions
  */
-	protected function _connectedLike($value, $field, $fieldName) {
+	protected function _connectedLike($value, array $field, string $fieldName): array
+    {
 		$or = [];
 		$orValues = Text::tokenize($value, $field['connectorOr']);
 		foreach ($orValues as $orValue) {
@@ -310,9 +317,10 @@ class SearchableBehavior extends Behavior {
  *
  * @return array of conditions
  */
-	protected function _addCondValue($data, $field) {
+	protected function _addCondValue(array $data, array $field): array
+    {
 		$fieldNames = (array)$field['field'];
-		$fieldValue = isset($data[$field['name']]) ? $data[$field['name']] : null;
+		$fieldValue = $data[$field['name']] ?? null;
 
 		$cond = [];
 		foreach ($fieldNames as $fieldName) {
@@ -357,7 +365,7 @@ class SearchableBehavior extends Behavior {
  *
  * @return array of conditions modified by this method
  */
-	protected function _addCondFinder(Query $query, $data, $field) {
+	protected function _addCondFinder(Query $query, array $data, array $field) {
 		if ((!empty($field['allowEmpty']) || !empty($data[$field['name']]) || (isset($data[$field['name']]) && (string)$data[$field['name']] !== ''))) {
 			$query->find($field['finder'], [
 				'data' => $data,
