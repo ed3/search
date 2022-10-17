@@ -2,9 +2,7 @@
 namespace Search\Controller\Component;
 
 use Cake\Controller\Component;
-use Cake\Controller\Controller;
-use Cake\Event\Event;
-use Cake\Routing\Router;
+use Cake\Event\EventInterface;
 use Cake\Utility\Hash;
 
 /**
@@ -77,11 +75,11 @@ class PrgComponent extends Component {
 /**
  * Called before the Controller::beforeFilter().
  *
- * @param Event $event Event object
+ * @param EventInterface $event Event object
  *
  * @return void
  */
-	public function beforeFilter(Event $event) {
+	public function beforeFilter(EventInterface $event) {
 		$this->controller = $this->_registry->getController();
 
 		// fix for not throwing warnings
@@ -183,7 +181,7 @@ class PrgComponent extends Component {
 
 			if ($field['type'] === 'lookup') {
 				$searchModel = $field['table'];
-				$result = $this->controller->{$searchModel}->findById($args[$field['field']])->first();
+				$result = $this->controller->fetchTable($searchModel)->findById($args[$field['field']])->first();
 				$parsedParams[$field['field']] = $args[$field['field']];
 				$parsedParams[$field['formField']] = $result->{$field['tableField']};
 				$data[$field['field']] = $args[$field['field']];
@@ -327,7 +325,7 @@ class PrgComponent extends Component {
 		if (!empty($searchParams)) {
 			$valid = true;
 			if ($tableMethod !== false) {
-				$valid = $this->controller->{$tableName}->{$tableMethod}($searchParams);
+				$valid = $this->controller->fetchTable($tableName)->{$tableMethod}($searchParams);
 			}
 
 			if ($valid) {
