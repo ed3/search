@@ -17,26 +17,26 @@ class PrgComponent extends Component
      *
      * @var bool
      */
-    public $isSearch = false;
+    public bool $isSearch = false;
 
     /**
      * @var \Cake\Controller\Controller
      */
-    public $controller;
+    public \Cake\Controller\Controller $controller;
 
     /**
      * Parsed params of current request
      *
      * @var array
      */
-    protected $_parsedParams = [];
+    protected array $_parsedParams = [];
 
     /**
      * Default options
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'commonProcess' => [
             'formName' => null,
             'keepPassed' => true,
@@ -129,10 +129,10 @@ class PrgComponent extends Component
         }
 
         if (!empty($formName)) {
-            $this->controller->request = $this->controller->getRequest()->withData($formName, $data);
+            $this->controller->setRequest($this->controller->getRequest()->withData($formName, $data));
         } else {
             foreach ($data as $key => $dt) {
-                $this->controller->request = $this->controller->getRequest()->withData($key, $dt);
+                $this->controller->setRequest($this->controller->getRequest()->withData($key, $dt));
             }
         }
 

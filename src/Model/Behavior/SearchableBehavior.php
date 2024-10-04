@@ -25,7 +25,7 @@ class SearchableBehavior extends Behavior
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'wildcardAny' => '*', //on windows/unix/mac/google/... thats the default one
         'wildcardOne' => '?', //on windows/unix/mac thats the default one
         'like' => ['before' => true, 'after' => true],
@@ -33,7 +33,7 @@ class SearchableBehavior extends Behavior
         'connectorOr' => null,
     ];
 
-    protected $_table;
+    protected Table $_table;
 
     /**
      * Configuration of model

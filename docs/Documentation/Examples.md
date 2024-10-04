@@ -13,7 +13,7 @@ use Cake\ORM\Query;
 
 class ArticlesTable extends Table {
 
-	public $filterArgs = array(
+	public array $filterArgs = array(
 		'title' => array(
 			'type' => 'like'
 		),
@@ -75,7 +75,8 @@ class ArticlesTable extends Table {
 		$this->addBehavior('Search.Searchable');
 	}
 
-	public function findByTags(Query $query, $options = []) {
+	public function findByTags(Query $query, ?array $options = []): Query
+	{
 		$query->matching('Tags', function($q) use ($options) {
 			return $q->where([
 				'Tags.name' => $options['data']['tags']
@@ -85,7 +86,8 @@ class ArticlesTable extends Table {
 	}
 
 	// Or conditions with like
-	public function findOrConditions(Query $query, $options = []) {
+	public function findOrConditions(Query $query, ?array $options = []): Query
+	{
 		$filter = $data['data']['filter'];
 		$condition = array(
 			'OR' => array(
@@ -97,7 +99,8 @@ class ArticlesTable extends Table {
 	}
 
 	// Turns 2000 - 2014 into a search between these two years
-	public function findYearRange(Query $query, $options = []) {
+	public function findYearRange(Query $query, ?array $options = []): Query
+	{
 		$conditions = [];
 		if (strpos($options['data']['year'], ' - ') !== false){
 			$tmp = explode(' - ', $options['data']['year']);
@@ -333,7 +336,8 @@ public $filterArgs = array(
 	)
 );
 
-public function findSearchNameCondition(Query $query, $options = []) {
+public function findSearchNameCondition(Query $query, ?array $options = []): Query
+{
 	$filter = $options['data']['name'];
 	$conditions = array(
 		'OR' => array(
@@ -360,4 +364,3 @@ public $presetVars = array(
 ```
 
 Search example with wildcards in the view for field `search` 20??BE* => matches 2011BES and 2012BETR etc.
-

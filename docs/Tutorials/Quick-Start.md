@@ -10,9 +10,11 @@ namespace App\Controller;
 
 class UsersController extends AppController {
 
-	public $components = array(
-		'Search.Prg'
-	);
+	public function initialize()
+    {
+        parent::initialize();
+		$this->loadComponent('Search.Prg');
+	}
 
 	public function index() {
 		$this->Prg->commonProcess();
