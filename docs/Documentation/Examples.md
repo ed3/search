@@ -79,7 +79,7 @@ class ArticlesTable extends Table {
 	{
 		$query->matching('Tags', function($q) use ($options) {
 			return $q->where([
-				'Tags.name' => $options['data']['tags']
+				'Tags.name' => $options['tags']
 			]);
 		});
 		return $query;
@@ -88,7 +88,7 @@ class ArticlesTable extends Table {
 	// Or conditions with like
 	public function findOrConditions(Query $query, ?array $options = []): Query
 	{
-		$filter = $data['data']['filter'];
+		$filter = $data['filter'];
 		$condition = array(
 			'OR' => array(
 				$this->alias() . '.title LIKE' => '%' . $filter . '%',
@@ -102,13 +102,13 @@ class ArticlesTable extends Table {
 	public function findYearRange(Query $query, ?array $options = []): Query
 	{
 		$conditions = [];
-		if (strpos($options['data']['year'], ' - ') !== false){
-			$tmp = explode(' - ', $options['data']['year']);
+		if (strpos($options['year'], ' - ') !== false){
+			$tmp = explode(' - ', $options['year']);
 			$tmp[0] = $tmp[0] . '-01-01';
 			$tmp[1] = $tmp[1] . '-12-31';
 			$conditions = $tmp;
 		} else {
-			$conditions = [$options['data']['year'] . '-01-01', $options['data']['year']."-12-31"];
+			$conditions = [$options['year'] . '-01-01', $options['year']."-12-31"];
 		}
 
 		return $query->where($condition);
@@ -338,7 +338,7 @@ public $filterArgs = array(
 
 public function findSearchNameCondition(Query $query, ?array $options = []): Query
 {
-	$filter = $options['data']['name'];
+	$filter = $options['name'];
 	$conditions = array(
 		'OR' => array(
 			$this->alias . '.name LIKE' => '' . $this->formatLike($filter) . '',
