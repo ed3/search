@@ -18,9 +18,10 @@ As mentioned before, this plugin helps you to implement searching for data using
 Requirements
 ------------
 
-* Search 3.2 => minimum CakePHP 3.10 and PHP 5.6
-* Search 4.x => minimum CakePHP 4.4 and PHP 7.4
-* Search 5.x => minimum CakePHP 5.0 and PHP 8.1
+* Search 3.2 => CakePHP 3.10 and PHP 5.6
+* Search 4.x => CakePHP 4.4 and PHP 7.4
+* Search 5.0 => CakePHP 5.0 and PHP 8.1
+* Search 5.2 => CakePHP 5.2 and PHP 8.1
 
 Documentation
 -------------
