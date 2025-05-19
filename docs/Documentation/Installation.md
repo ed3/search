@@ -5,14 +5,14 @@ The plugin should be installed using Composer.
 
 Use the inline `require` for composer:
 ```
-composer require ed3/search:3.*
+composer require ed3/search: 5.*
 ```
 
 or add this to your composer.json configuration:
 ```
 {
         "require" : {
-                "ed3/search": "3.*"
+                "ed3/search": "5.*"
         }
 }
 ```
