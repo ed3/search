@@ -3,11 +3,6 @@ Home
 
 The **Search** plugin enables developers to quickly implement the [POST-Redirect-GET](Documentation/Post-Redirect-Get.md) pattern. It also provides you with a paginate-able search in any controller. It supports simple methods to build search conditions inside models using strict and non-strict comparing, but also allows you to implement any kind of complex type of search conditions.
 
-Requirements
-------------
-
-* CakePHP 3.5+
-* PHP 5.6+
 
 Documentation
 -------------
