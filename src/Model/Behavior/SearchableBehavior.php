@@ -372,7 +372,7 @@ class SearchableBehavior extends Behavior
     protected function _addCondFinder(Query $query, array $data, array $field)
     {
         if ((!empty($field['allowEmpty']) || !empty($data[$field['name']]) || (isset($data[$field['name']]) && (string)$data[$field['name']] !== ''))) {
-            $query->find($field['finder'], [$data, $field]);
+            $query->find($field['finder'], data: $data);
         }
         return $query;
     }

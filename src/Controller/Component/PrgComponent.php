@@ -218,7 +218,7 @@ class PrgComponent extends Component
      *
      * @return void
      */
-    public function commonProcess(string $tableName = null, array $options = [])
+    public function commonProcess(string $tableName = '', array $options = [])
     {
         $defaults = [
             'excludedParams' => ['page'],
@@ -274,7 +274,8 @@ class PrgComponent extends Component
         if (!empty($searchParams)) {
             $valid = true;
             if ($tableMethod !== false) {
-                $valid = $this->controller->fetchTable($tableName)->{$tableMethod}($searchParams);
+                $table = $this->controller->fetchTable($tableName);
+                $valid = $table->getBehavior('Searchable')->{$tableMethod}($searchParams);
             }
 
             if ($valid) {
