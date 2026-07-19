@@ -22,7 +22,7 @@ Requirements
 * Search 4.x => min. CakePHP 4.4 and PHP 7.4
 * Search 5.0 => min. CakePHP 5.0 and PHP 8.1
 * Search 5.2 => min. CakePHP 5.2 and PHP 8.1
-* Search 5.3 => min. CakePHP 5.3 and PHP 8.1
+* Search 5.3 => min. CakePHP 5.3 and PHP 8.2
 
 Documentation
 -------------
